@@ -30,7 +30,11 @@ function BaseTabs({ darkMode }) {
         }
     }
 
-    setLimit(5)
+    if (limit > 5) {
+        setLimit(5)
+    }
+
+
 
     return (
 
