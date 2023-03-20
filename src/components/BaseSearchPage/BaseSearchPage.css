@@ -1,0 +1,22 @@
+.search_page {
+  border: 1px solid #0578be;
+}
+.search_page-dark {
+  border: 1px solid white;
+}
+.search_page-text {
+  background-color: #cccccc;
+}
+.search_btn {
+  border: 1px solid #0578be;
+  background-color: transparent;
+  padding: 5px 10px;
+  min-width: 100px;
+}
+.search_btn-dark {
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 5px 10px;
+  min-width: 100px;
+  color: white;
+}

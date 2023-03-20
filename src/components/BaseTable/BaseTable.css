@@ -1,0 +1,15 @@
+.width-not {
+  width: 500px;
+}
+.bg_table_header {
+  background-color: #2e86de;
+}
+.bg_table_body {
+  background-color: rgba(134, 159, 167, 0.4);
+}
+.paginationTable {
+  margin-top: 50px;
+}
+.icon_position {
+  transform: rotate(180deg);
+}
