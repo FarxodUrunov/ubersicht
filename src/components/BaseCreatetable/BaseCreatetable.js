@@ -29,7 +29,7 @@ function BaseFormCreate({ darkMode }) {
     }
     const handleSubmit = () => {
         // formData.append('file', files[0])
-        // console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
+        console.log({ employeeShortcut, maschine, status, note, files })
 
     }
 
