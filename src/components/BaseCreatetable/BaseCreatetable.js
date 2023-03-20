@@ -28,7 +28,7 @@ function BaseFormCreate({ darkMode }) {
         setEmployeeShortcut(e.target.value)
     }
     const handleSubmit = () => {
-        formData.append('file', files[0])
+        // formData.append('file', files[0])
         // console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
 
     }
