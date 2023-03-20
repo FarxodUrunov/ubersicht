@@ -1,27 +1,26 @@
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import BaseSelect from '../BaseSelect/BaseSelect';
 import BaseFileUpload from '../BaseFileUpload/BaseFileUpload';
 import './BaseCreateTable.css'
 import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import moment from 'moment';
 
 
 function BaseFormCreate({ darkMode }) {
     const date = moment().format()
 
-    const [dateAuto, setdateAuto] = useState(date)
+    // const [dateAuto, setdateAuto] = useState(date)
     const [employeeShortcut, setEmployeeShortcut] = useState('')
     const [maschine, setMaschine] = useState('')
     const [status, setStatus] = useState('')
     const [note, setNote] = useState('')
     const [files, setFiles] = useState([])
 
-    const formData = new FormData()
-    useEffect(() => {
-        formData.append('file', files[0])
-    }, [files])
+    // const formData = new FormData()
+    // useEffect(() => {
+    //     formData.append('file', files[0])
+    // }, [files])
 
 
 
@@ -30,7 +29,7 @@ function BaseFormCreate({ darkMode }) {
     }
     const handleSubmit = () => {
         formData.append('file', files[0])
-        console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
+        // console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
 
     }
 
@@ -40,7 +39,7 @@ function BaseFormCreate({ darkMode }) {
         setStatus('')
         setNote('')
         setFiles([])
-        console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
+        // console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
     }
 
     return (
@@ -52,7 +51,7 @@ function BaseFormCreate({ darkMode }) {
                     </tr>
                     <tr>
                         <td>
-                            <Form.Control size='lg' className='my-2 ' defaultValue={moment(dateAuto).format('MMMM Do YYYY, h:mm:ss a')} type="text" placeholder="Automatically date" />
+                            <Form.Control size='lg' className='my-2 ' defaultValue={moment(date).format('MMMM Do YYYY, h:mm:ss a')} type="text" placeholder="Automatically date" />
                         </td>
                     </tr>
                     <tr>

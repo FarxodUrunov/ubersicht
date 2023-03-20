@@ -7,9 +7,6 @@ const BaseMultiSelect = ({ single, select, placeholder, value }) => {
 
     const options = [{ name: 'Option 1', id: 1 }, { name: 'Option 2️', id: 2 }, { name: 'Option 3', id: 3 }, { name: 'Option 4', id: 4 }, { name: 'Option 5', id: 5 }]
 
-    const handleSelect = (e) => {
-        console.log(e)
-    }
 
     return (
         <>

@@ -32,7 +32,7 @@ const BaseTable = ({ data, darkMode }) => {
         if (str === 'mashine') setIconPosMashine(!iconPosMashine)
 
 
-        console.log(str)
+        // console.log(str)
     }
     return (
         <>
@@ -120,7 +120,7 @@ const BaseTable = ({ data, darkMode }) => {
                                         <td>Mark</td>
                                         <td className='width-not' >Otto</td>
                                         <td className='d-flex align-items-center justify-content-center' >
-                                            {item?.img ? <img width={20} height={20} src={item?.img} alt='photo' /> : '-'}
+                                            {item?.img ? <img width={20} height={20} src={item?.img} alt='avatar' /> : '-'}
                                         </td>
                                     </tr>
                                 </Fragment>

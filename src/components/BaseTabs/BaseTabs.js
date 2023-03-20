@@ -30,6 +30,8 @@ function BaseTabs({ darkMode }) {
         }
     }
 
+    setLimit(5)
+
     return (
 
         <div className='w-100 position-relative' >
