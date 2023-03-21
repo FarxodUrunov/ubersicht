@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import BaseTable from '../BaseTable/BaseTable';
@@ -6,11 +6,14 @@ import BasePagination from '../BasePagination/BasePagination';
 import BaseFormCreate from '../BaseCreatetable/BaseCreatetable';
 import BaseSearchPage from '../BaseSearchPage/BaseSearchPage';
 import { getUsers, getLength } from '../../data/users'
+import moment from 'moment';
+
 import './BaseTabs.css'
 
 function BaseTabs({ darkMode }) {
-    const [key, setKey] = useState('neu');
 
+    const [onlineDate, setOnlineDate] = useState(moment().format('DD.MM.YYYY // HH:mm:ss'))
+    const [key, setKey] = useState('neu');
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(5)
 
@@ -33,6 +36,11 @@ function BaseTabs({ darkMode }) {
     if (limit > 5) {
         setLimit(5)
     }
+    const dateOnline = function () {
+        setOnlineDate(moment().format('DD.MM.YYYY // HH:mm:ss'))
+    }
+
+    setInterval(dateOnline, 1000)
 
 
 
@@ -45,20 +53,20 @@ function BaseTabs({ darkMode }) {
                 onSelect={(k) => setKey(k)}
                 className={`bg_tab_header ${darkMode ? 'bg-dark border border-white' : ''}`}
             >
-                <Tab tabClassName={`border-0 rounded-0 text-${key === 'neu' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="neu" title="+ NEU">
+                <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'neu' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="neu" title="+ NEU">
                     <BaseFormCreate darkMode={darkMode} />
                 </Tab>
-                <Tab tabClassName={`border-0 rounded-0 text-${key === 'ubersicht' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="ubersicht" title="Übersicht">
+                <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'ubersicht' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="ubersicht" title="Übersicht">
                     <BaseTable darkMode={darkMode} data={getUsers(page, limit)} />
                     <div className='d-flex justify-content-center paginationTable'>
                         <BasePagination darkMode={darkMode} totalPage={totalPage} page={page} limit={limit} siblings={1} onPageChange={handlePageChange} />
                     </div>
                 </Tab>
-                <Tab tabClassName={`border-0 rounded-0 text-${key === 'suche' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="suche" title="Suche">
+                <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'suche' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="suche" title="Suche">
                     <BaseSearchPage darkMode={darkMode} />
                 </Tab>
             </Tabs>
-            <span className={`position-absolute top-0 end-0 translate-middle-x d-flex align-items-center mt-2 text-${darkMode ? 'white' : 'dark'}`} >Date // Time</span>
+            <span className={`position-absolute top-0 end-0 translate-middle-x d-flex align-items-center mt-2 text-${darkMode ? 'white' : 'dark'}`} >{onlineDate}</span>
         </div>
     );
 }

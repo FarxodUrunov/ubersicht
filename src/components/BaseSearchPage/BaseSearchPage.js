@@ -23,27 +23,27 @@ function BaseSearchPage({ darkMode }) {
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 search_page-text' >Schicht:</p>
+                                <p className='my-0 me-2 px-2 py-1' >Schicht:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
-                        <td>
+                        <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 search_page-text' >Status:</p>
+                                <p className='my-0 me-2 px-2 py-1' >Status:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
-                        <td>
+                        <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 search_page-text' >MA:</p>
+                                <p className='my-0 me-2 px-2 py-1' >MA:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
-                        <td>
+                        <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 search_page-text' >Maschine:</p>
+                                <p className='my-0 me-2 px-2 py-1' >Maschine:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>

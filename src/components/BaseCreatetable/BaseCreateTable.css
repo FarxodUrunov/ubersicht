@@ -1,11 +1,13 @@
 .btn_b {
   border: 1px solid #0578be;
   min-width: 100px;
+  background-color: #2e86de;
 }
 .btn_b-dark {
   border: 1px solid white;
   min-width: 100px;
   color: white;
+  background-color: transparent;
 }
 .table_form {
   border: 1px solid #0578be;

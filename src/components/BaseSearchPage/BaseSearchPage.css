@@ -5,11 +5,11 @@
   border: 1px solid white;
 }
 .search_page-text {
-  background-color: #cccccc;
+  background-color: #0000000d !important;
 }
 .search_btn {
   border: 1px solid #0578be;
-  background-color: transparent;
+  background-color: #2e86de;
   padding: 5px 10px;
   min-width: 100px;
 }
