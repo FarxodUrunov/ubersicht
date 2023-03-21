@@ -37,6 +37,7 @@ function BaseFormCreate({ darkMode }) {
     setInterval(dateOnline, 1000)
 
     const timeFormat = function () {
+        setTime(moment().format('h:mm:ss'))
         if (time >= '06:00:00' && time <= '14:30:00') {
             return 'F1'
         } else if (time >= '14:30:01' && time <= '22:30:00') {
