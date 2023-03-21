@@ -9,8 +9,8 @@ import moment from 'moment';
 
 function BaseFormCreate({ darkMode }) {
 
-    const [currentDate, setCurrentDate] = useState(moment().format('DD.MM.YYYY, HH:mm:ss a'))
-    const [time, setTime] = useState(moment().format('h:mm:ss'))
+    const [currentDate, setCurrentDate] = useState(moment().format('DD.MM.YYYY, HH:mm:ss'))
+    const time = moment().format('HH:mm:ss')
 
     // const [dateAuto, setdateAuto] = useState(date)
     const [employeeShortcut, setEmployeeShortcut] = useState('')
@@ -31,13 +31,12 @@ function BaseFormCreate({ darkMode }) {
     }
 
     const dateOnline = function () {
-        setCurrentDate(moment().format('DD.MM.YYYY, HH:mm:ss a'))
+        setCurrentDate(moment().format('DD.MM.YYYY, HH:mm:ss'))
     }
 
     setInterval(dateOnline, 1000)
 
     const timeFormat = function () {
-        setTime(moment().format('h:mm:ss'))
         if (time >= '06:00:00' && time <= '14:30:00') {
             return 'F1'
         } else if (time >= '14:30:01' && time <= '22:30:00') {
