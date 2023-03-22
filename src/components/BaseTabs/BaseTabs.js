@@ -15,7 +15,7 @@ function BaseTabs({ darkMode }) {
     const [onlineDate, setOnlineDate] = useState(moment().format('DD.MM.YYYY // HH:mm:ss'))
     const [key, setKey] = useState('neu');
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(5)
+    const [limit, setLimit] = useState(10)
 
     let totalPage = Math.ceil(getLength() / limit)
 
@@ -33,15 +33,14 @@ function BaseTabs({ darkMode }) {
         }
     }
 
-    if (limit > 5) {
-        setLimit(5)
+    if (limit > 10) {
+        setLimit(10)
     }
     const dateOnline = function () {
         setOnlineDate(moment().format('DD.MM.YYYY // HH:mm:ss'))
     }
 
     setInterval(dateOnline, 1000)
-
 
 
     return (
@@ -66,7 +65,7 @@ function BaseTabs({ darkMode }) {
                     <BaseSearchPage darkMode={darkMode} />
                 </Tab>
             </Tabs>
-            <span className={`position-absolute top-0 end-0 translate-middle-x d-flex align-items-center mt-2 text-${darkMode ? 'white' : 'dark'}`} >{onlineDate}</span>
+            <span className={`d-none d-md-block position-absolute top-0 end-0 translate-middle-x d-flex align-items-center mt-2 text-${darkMode ? 'white' : 'dark'}`} >{onlineDate}</span>
         </div>
     );
 }

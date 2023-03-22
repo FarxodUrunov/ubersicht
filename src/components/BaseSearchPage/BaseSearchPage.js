@@ -11,13 +11,13 @@ function BaseSearchPage({ darkMode }) {
                     <tr>
                         <td>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 px-2 py-1 search_page-text' >Datum von:</p>
+                                <p className='my-0 px-2 py-1 search_page-text fw-bold bg-transparent' >Datum von:</p>
                                 <Form.Control size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
                         <td>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 px-2 py-1 search_page-text' >Datum bis:</p>
+                                <p className='my-0 px-2 py-1 search_page-text fw-bold bg-transparent' >Datum bis:</p>
                                 <Form.Control size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
@@ -25,25 +25,25 @@ function BaseSearchPage({ darkMode }) {
                     <tr>
                         <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1' >Schicht:</p>
+                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Schicht:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1' >Status:</p>
+                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Status:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1' >MA:</p>
+                                <p className='my-0 me-2 px-2 py-1 fw-bold' >MA:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1' >Maschine:</p>
+                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Maschine:</p>
                                 <BaseSelect size='sm' />
                             </div>
                         </td>

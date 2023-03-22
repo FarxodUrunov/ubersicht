@@ -67,3 +67,37 @@ export const getUsers = (page, limit) => {
 export const getLength = () => {
     return arr.length
 }
+
+export const machine = [
+    { name: 'E 35 - 1', id: 1 },
+    { name: 'E 45 - 2', id: 2 },
+    { name: 'E 45 - 1', id: 3 },
+    { name: 'E 50 - 2', id: 4 },
+    { name: 'E 50 - 3', id: 5 },
+    { name: 'EM 50 - 1', id: 6 },
+    { name: 'EM 50 - 2', id: 7 },
+    { name: 'EM 50 - 3', id: 8 },
+    { name: 'EM 55 - 1', id: 9 },
+    { name: 'E 80 - 1', id: 10 },
+    { name: 'E 120 - 1', id: 11 },
+    { name: 'KM 150 - 1', id: 12 },
+    { name: 'KM 80 - 1', id: 13 },
+    { name: 'KM 50 - 1', id: 14 },
+    { name: 'KM 420 - 1', id: 15 },
+    { name: 'F 150iA - 1', id: 16 },
+    { name: 'F 250iA - 1', id: 17 },
+    { name: 'F 450iA - 1', id: 18 }
+]
+
+export const statusData = [
+    { name: 'Anweisung', id: 1 },
+    { name: 'Info', id: 2 },
+    { name: 'Störung ohne Ausfall', id: 3 },
+    { name: 'Störung mit Ausfall', id: 4 },
+    { name: 'Qualitätsabweichung', id: 5 }
+]
+
+export const notData = [
+    { name: 'Halbe Teile', id: 1 },
+    { name: 'Auswerfer abgebrochen', id: 2 },
+]

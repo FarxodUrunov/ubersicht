@@ -13,12 +13,12 @@ const BaseTable = ({ data, darkMode }) => {
     const [iconPosMashine, setIconPosMashine] = useState(true)
 
     const statusColor = (status) => {
-        if (status === 'Störung') {
-            return 'danger'
+        if (status === 'Info') {
+            return ''
         } else if (status === 'Anweisung') {
             return 'warning'
         } else {
-            return ''
+            return 'danger'
         }
 
     }
