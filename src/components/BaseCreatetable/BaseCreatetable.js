@@ -4,9 +4,9 @@ import Modal from 'react-bootstrap/Modal';
 import BaseFileUpload from '../BaseFileUpload/BaseFileUpload';
 import './BaseCreateTable.css'
 import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import moment from 'moment';
-import { machine, statusData, notData } from '../../data/users';
+import { machine, statusData } from '../../data/users';
 import { Button } from 'react-bootstrap';
 
 
@@ -37,9 +37,9 @@ function BaseFormCreate({ darkMode }) {
     let FormData = require("form-data");
     const formData = new FormData()
     formData.append('file', files[0])
-    useEffect(() => {
-        formData.append('file', files[0])
-    }, [files])
+    // useEffect(() => {
+    //     formData.append('file', files[0])
+    // }, [files])
 
 
 
