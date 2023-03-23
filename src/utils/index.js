@@ -26,3 +26,13 @@ export const paginationRange = (totalPage, page, limit, siblings) => {
         return [1, "... ", ...middleRange, " ...", totalPage]
     }
 }
+
+export const timeFormat = (time) => {
+    if (time >= '06:00' && time <= '14:30') {
+        return 'F1'
+    } else if (time >= '14:31' && time <= '22:30') {
+        return 'S2'
+    } else {
+        return 'N3'
+    }
+}

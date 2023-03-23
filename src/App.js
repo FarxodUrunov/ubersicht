@@ -13,7 +13,7 @@ function App() {
     setDarkMode(checked);
   };
   return (
-    <div className={`h-100 bg-${isDarkMode ? 'dark' : ''}`} >
+    <div className={`min-vh-100 bg-${isDarkMode ? 'dark' : ''}`} >
       <div className='container position-relative'>
         <header>
           <div className='d-flex align-items-center justify-content-between' >

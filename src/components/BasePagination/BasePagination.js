@@ -1,13 +1,11 @@
 import Pagination from 'react-bootstrap/Pagination';
 import { paginationRange } from '../../utils/index';
+
 import './BasePagination.css'
 
 
 function BasePagination(props) {
 
-    // const handleNext = () => {
-
-    // }
     let pageArray = paginationRange(props.totalPage, props.page, props.limit, props.siblings)
 
     return (

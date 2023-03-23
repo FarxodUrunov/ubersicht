@@ -1,47 +1,28 @@
-import Form from 'react-bootstrap/Form';
-import Table from 'react-bootstrap/Table';
-import Modal from 'react-bootstrap/Modal';
-import BaseFileUpload from '../BaseFileUpload/BaseFileUpload';
-import './BaseCreateTable.css'
-import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
 import { useState } from 'react';
 import moment from 'moment';
+import Form from 'react-bootstrap/Form';
+import Table from 'react-bootstrap/Table';
+import BaseFileUpload from '../BaseFileUpload/BaseFileUpload';
+import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
 import { machine, statusData } from '../../data/users';
-import { Button } from 'react-bootstrap';
+import { create, fetchGet } from '../../api/index'
+import { timeFormat } from '../../utils/index'
+
+import './BaseCreateTable.css'
 
 
-function BaseFormCreate({ darkMode }) {
+const BaseFormCreate = ({ darkMode, page, setTableData }) => {
 
-    const [currentDate, setCurrentDate] = useState(moment().format('DD.MM.YYYY, HH:mm:ss'))
-    const time = moment().format('HH:mm:ss')
+    const date = moment().format()
+    const currentDate = moment().format('DD.MM.YYYY, HH:mm')
+    const time = moment().format('HH:mm')
 
-    // const [dateAuto, setdateAuto] = useState(date)
     const [employeeShortcut, setEmployeeShortcut] = useState('')
     const [maschine, setMaschine] = useState([])
     const [status, setStatus] = useState('')
     const [note, setNote] = useState('')
-    const [noteSave, setNoteSave] = useState('')
-    const [files, setFiles] = useState([])
-    const [show, setShow] = useState(false);
-
-    const handleClose = (str) => {
-        setShow(false)
-        if (str === 'cancel') {
-            setNote('')
-        } else {
-            setNoteSave(note)
-        }
-    };
-    const handleShow = () => setShow(true);
-
-    let FormData = require("form-data");
-    const formData = new FormData()
-    formData.append('file', files[0])
-    // useEffect(() => {
-    //     formData.append('file', files[0])
-    // }, [files])
-
-
+    const [files, setFiles] = useState('')
+    const [valueFile, setValueFile] = useState('')
 
 
     const handelEmployee = (e) => {
@@ -51,26 +32,36 @@ function BaseFormCreate({ darkMode }) {
         setNote(e.target.value)
     }
 
-    const dateOnline = function () {
-        setCurrentDate(moment().format('DD.MM.YYYY, HH:mm:ss'))
-    }
-
-    setInterval(dateOnline, 1000)
-
-    const timeFormat = function () {
-        if (time >= '06:00:00' && time <= '14:30:00') {
-            return 'F1'
-        } else if (time >= '14:30:01' && time <= '22:30:00') {
-            return 'S2'
-        } else {
-            return 'N3'
-        }
+    const handleUpload = (e) => {
+        setFiles(e.target.files[0])
+        setValueFile(e.target.value)
     }
 
     const handleSubmit = () => {
 
-        console.log({ employeeShortcut, maschine, status, note, files, formData })
+        const FormData = require('form-data');
+        const formData = new FormData()
 
+        formData.append('file', files)
+        formData.append('date', date)
+        formData.append('ma', employeeShortcut)
+        formData.append('note', note)
+        formData.append('status', status.id)
+        maschine.map(item => {
+            formData.append('machine', item.name)
+        })
+
+        create(formData).then(res => {
+            if (res.status === 201) {
+                setEmployeeShortcut('')
+                setMaschine('')
+                setStatus('')
+                setNote('')
+                setFiles('')
+                setValueFile('')
+                fetchGet(page).then((res) => setTableData(res.data.items))
+            }
+        })
     }
 
 
@@ -79,10 +70,8 @@ function BaseFormCreate({ darkMode }) {
         setMaschine('')
         setStatus('')
         setNote('')
-        setNoteSave('')
-        setFiles([])
-        // console.log({ dateAuto, employeeShortcut, maschine, status, note, files, formData })
-
+        setFiles('')
+        setValueFile('')
     }
 
     return (
@@ -98,7 +87,7 @@ function BaseFormCreate({ darkMode }) {
                             <Form.Control
                                 size='lg'
                                 className='my-2 '
-                                value={currentDate + `     Schicht // ${timeFormat()}`}
+                                value={currentDate + `     Schicht // ${timeFormat(time)}`}
                                 type="text"
                                 placeholder="Automatically date"
                                 disabled
@@ -123,7 +112,6 @@ function BaseFormCreate({ darkMode }) {
                         <td>
                             <div className='my-2' >
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Status</Form.Label>
-                                {/* <BaseMultiSelect options={statusData} single value={status} placeholder='Status:' select={(e) => setStatus(e)} /> */}
                                 <Form className='ps-3 d-flex'>
                                     {
                                         statusData.map(item => {
@@ -150,29 +138,7 @@ function BaseFormCreate({ darkMode }) {
                         <td >
                             <div className='my-2' >
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Notiz</Form.Label>
-                                <button className='btn_note' onClick={handleShow} >
-                                    <Form.Control className='textarea_disabled' value={noteSave} as="textarea" rows={3} disabled placeholder='Notiz' />
-                                </button>
-
-
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Notiz</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                            <Form.Control onChange={handleNote} value={note} as="textarea" rows={3} />
-                                        </Form.Group>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={() => handleClose('cancel')}>
-                                            Abbruch
-                                        </Button>
-                                        <Button variant="primary" onClick={() => handleClose('save')}>
-                                            Speichern
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
+                                <Form.Control onChange={handleNote} value={note} as="textarea" rows={3} />
                             </div>
                         </td>
                     </tr>
@@ -180,7 +146,7 @@ function BaseFormCreate({ darkMode }) {
                         <td>
                             <div className='my-2'>
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Bild anhängen</Form.Label>
-                                <BaseFileUpload value={files[0]} file={(file) => setFiles(file)} />
+                                <BaseFileUpload value={valueFile} file={(e) => handleUpload(e)} />
                             </div>
                         </td>
                     </tr>

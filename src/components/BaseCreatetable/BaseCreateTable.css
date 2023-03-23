@@ -19,10 +19,6 @@
   width: 150px;
 }
 .form-control:focus {
-  /* color: white !important; */
-  /* background-color: white !important; */
-  /* border-color: white !important; */
-  /* outline: 0 !important; */
   box-shadow: none !important;
 }
 

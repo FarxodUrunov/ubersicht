@@ -13,3 +13,26 @@
 .icon_position {
   transform: rotate(180deg);
 }
+.bg_space {
+  background-color: #fdfdfd !important;
+}
+.bg_tbody-dark {
+  border: 1px solid #ffffff;
+}
+.bg_tbody {
+  border: 1px solid #2e86de;
+}
+.cursor_pointer {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.ul_style {
+  list-style-type: none;
+  padding: 0;
+}
+.avatar_name {
+  border-radius: 100%;
+  padding: 6px 5px;
+  margin-right: 8px;
+}

@@ -1,71 +1,79 @@
-const arr = [
-    { id: 1, status: 'Störung' },
-    { id: 2, status: '' },
-    { id: 3, status: '' },
-    { id: 4, status: '' },
-    { id: 5, status: 'Anweisung' },
-    { id: 6, status: '' },
-    { id: 7, status: 'Störung' },
-    { id: 8, status: '' },
-    { id: 9, status: '' },
-    { id: 10, status: '' },
-    { id: 11, status: 'Anweisung' },
-    { id: 12, status: '' },
-    { id: 13, status: 'Störung' },
-    { id: 14, status: '' },
-    { id: 15, status: '' },
-    { id: 16, status: '' },
-    { id: 17, status: 'Anweisung' },
-    { id: 18, status: '' },
-    { id: 19, status: 'Störung' },
-    { id: 20, status: '' },
-    { id: 21, status: '' },
-    { id: 22, status: '' },
-    { id: 23, status: 'Anweisung' },
-    { id: 24, status: '' },
-    { id: 25, status: 'Störung' },
-    { id: 26, status: '' },
-    { id: 27, status: '' },
-    { id: 28, status: '' },
-    { id: 29, status: 'Anweisung' },
-    { id: 30, status: '' },
-    { id: 31, status: 'Störung' },
-    { id: 32, status: '' },
-    { id: 33, status: '' },
-    { id: 34, status: '' },
-    { id: 35, status: 'Anweisung' },
-    { id: 36, status: '' },
-    { id: 37, status: 'Störung' },
-    { id: 38, status: '' },
-    { id: 39, status: '' },
-    { id: 40, status: '' },
-    { id: 41, status: 'Anweisung' },
-    { id: 42, status: '' },
-    { id: 43, status: 'Störung' },
-    { id: 44, status: '' },
-    { id: 45, status: '' },
-    { id: 46, status: '' },
-    { id: 47, status: 'Anweisung' },
-    { id: 48, status: '' },
-    { id: 49, status: 'Störung' },
-    { id: 50, status: '' },
-    { id: 51, status: '' },
-    { id: 52, status: '' },
-    { id: 53, status: 'Anweisung' },
-    { id: 54, status: '' },
-    { id: 55, status: '' },
-]
 
-export const getUsers = (page, limit) => {
+
+// const arr = [
+//     {
+//         id: 1,
+//         status: 'Störung',
+//         img: 'https://static-cse.canva.com/blob/847064/29.jpg',
+//         description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old'
+//     },
+//     { id: 2, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 3, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 4, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 5, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 6, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 7, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 8, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 9, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 10, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 11, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 12, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 13, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 14, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 15, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 16, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 17, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 18, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 19, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 20, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 21, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 22, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 23, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 24, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 25, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 26, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 27, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 28, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 29, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 30, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 31, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 32, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 33, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 34, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 35, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 36, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 37, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 38, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 39, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 40, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 41, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 42, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 43, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 44, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 45, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 46, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 47, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 48, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 49, status: 'Störung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 50, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 51, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 52, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 53, status: 'Anweisung', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 54, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+//     { id: 55, status: '', description: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old' },
+// ]
+
+export const getUsers = (arr, page, limit) => {
     let array = []
     for (let i = (page - 1) * limit; i < (page * limit); i++) {
         array.push(arr[i])
     }
+    console.log(arr, page, limit)
     return array
 }
 
-export const getLength = () => {
-    return arr.length
+export const getLength = (arr) => {
+    return arr?.length
 }
 
 export const machine = [
@@ -90,14 +98,9 @@ export const machine = [
 ]
 
 export const statusData = [
-    { name: 'Anweisung', id: 1 },
-    { name: 'Info', id: 2 },
-    { name: 'Störung ohne Ausfall', id: 3 },
-    { name: 'Störung mit Ausfall', id: 4 },
-    { name: 'Qualitätsabweichung', id: 5 }
-]
-
-export const notData = [
-    { name: 'Halbe Teile', id: 1 },
-    { name: 'Auswerfer abgebrochen', id: 2 },
+    { name: 'Anweisung', id: 'anweisung' },
+    { name: 'Info', id: 'info' },
+    { name: 'Störung ohne Ausfall', id: 'storung_ohne_ausfall' },
+    { name: 'Störung mit Ausfall', id: 'storung_mit_ausfall' },
+    { name: 'Qualitätsabweichung', id: 'qualitatsabweichung' }
 ]

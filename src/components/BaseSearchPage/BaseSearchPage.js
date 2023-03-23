@@ -1,9 +1,14 @@
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
-import './BaseSearchPage.css'
+import { Table, Form } from 'react-bootstrap';
 import BaseSelect from '../BaseSelect/BaseSelect';
 
+import './BaseSearchPage.css'
+
 function BaseSearchPage({ darkMode }) {
+
+    const handleSelect = (e) => {
+        console.log(e)
+    }
+
     return (
         <div>
             <Table className='my-4' striped bordered>
@@ -11,13 +16,13 @@ function BaseSearchPage({ darkMode }) {
                     <tr>
                         <td>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 px-2 py-1 search_page-text fw-bold bg-transparent' >Datum von:</p>
+                                <p className={`my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum von:</p>
                                 <Form.Control size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
                         <td>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 px-2 py-1 search_page-text fw-bold bg-transparent' >Datum bis:</p>
+                                <p className={`my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum bis:</p>
                                 <Form.Control size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
@@ -25,26 +30,26 @@ function BaseSearchPage({ darkMode }) {
                     <tr>
                         <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Schicht:</p>
-                                <BaseSelect size='sm' />
+                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Schicht:</p>
+                                <BaseSelect select={(e) => handleSelect(e)} size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Status:</p>
-                                <BaseSelect size='sm' />
+                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Status:</p>
+                                <BaseSelect select={(e) => handleSelect(e)} size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 fw-bold' >MA:</p>
-                                <BaseSelect size='sm' />
+                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >MA:</p>
+                                <BaseSelect select={(e) => handleSelect(e)} size='sm' />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className='my-0 me-2 px-2 py-1 fw-bold' >Maschine:</p>
-                                <BaseSelect size='sm' />
+                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Maschine:</p>
+                                <BaseSelect select={(e) => handleSelect(e)} size='sm' />
                             </div>
                         </td>
                     </tr>
