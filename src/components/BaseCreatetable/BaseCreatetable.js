@@ -47,9 +47,7 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
         formData.append('ma', employeeShortcut)
         formData.append('note', note)
         formData.append('status', status.id)
-        maschine.map(item => {
-            formData.append('machine', item.name)
-        })
+        maschine.map(item => formData.append('machine', item.name))
 
         create(formData).then(res => {
             if (res.status === 201) {
