@@ -3,14 +3,13 @@ import { Modal, Button, Form, Table, Badge } from 'react-bootstrap';
 import { Fragment } from 'react';
 import moment from 'moment';
 import { timeFormat } from '../../utils/index'
-import { url, updated, fetchGet } from '../../api/index'
+import { url, updated, fetchGet, fetchSearch } from '../../api/index'
 
 import './BaseTable.css'
 
 
-const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
+const BaseTable = ({ data, darkMode, page, setDatLength, setTableData, isSort, setSearchData, searchFetch }) => {
     const [iconPosDatum, setIconPosDatum] = useState(true)
-    const [iconPosUhrzeit, setIconPosUhrzeit] = useState(true)
     const [iconPosSchicht, setIconPosSchicht] = useState(true)
     const [iconPosStatus, setIconPosStatus] = useState(true)
     const [iconPosMa, setIconPosMa] = useState(true)
@@ -36,16 +35,12 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
 
     const handelSort = (str) => {
         if (str === 'datum') setIconPosDatum(!iconPosDatum)
-        if (str === 'uhrzeit') setIconPosUhrzeit(!iconPosUhrzeit)
         if (str === 'schicht') setIconPosSchicht(!iconPosSchicht)
         if (str === 'status') setIconPosStatus(!iconPosStatus)
         if (str === 'ma') setIconPosMa(!iconPosMa)
         if (str === 'mashine') setIconPosMashine(!iconPosMashine)
-    }
 
-    const handleAdd = () => {
-        setComments([...comments, noteComment])
-        setNoteComment('')
+        console.log(str)
     }
 
     const handleClose = (str) => {
@@ -53,12 +48,16 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
         if (str === 'save') {
             const FormData = require('form-data');
             const noteData = new FormData()
-            comments.map(item => noteData.append('notes', item))
+            noteData.append('notes', noteComment)
             updated(itemId, noteData).then(res => {
                 if (res.status === 200) {
+                    setNoteComment('')
                     fetchGet(page).then(res => {
                         setTableData(res.data.items)
                         setDatLength(res.data.length)
+                    })
+                    fetchSearch(...searchFetch).then(res => {
+                        setSearchData(res?.data?.items)
                     })
                 }
             })
@@ -100,61 +99,66 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
                         <th>
                             <div className='d-flex align-items-center justify-content-between' >
                                 <span>Datum</span>
-                                <span role="button" onClick={() => handelSort('datum')} className={`d-flex align-items-center ${iconPosDatum ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
+                                {
+                                    isSort ? <span role="button" onClick={() => handelSort('datum')} className={`d-flex align-items-center ${iconPosDatum ? 'icon_position' : ''}`} >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                                        </svg>
+                                    </span> : null
+                                }
                             </div>
                         </th>
                         <th>
                             <div className='d-flex align-items-center justify-content-between' style={{ widows: "100%" }} >
                                 <span>Uhrzeit</span>
-                                <span role="button" onClick={() => handelSort('uhrzeit')} className={`d-flex align-items-center ${iconPosUhrzeit ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
                             </div>
                         </th>
                         <th>
                             <div className='d-flex align-items-center justify-content-between' >
                                 <span>Schicht</span>
-                                <span role="button" onClick={() => handelSort('schicht')} className={`d-flex align-items-center ${iconPosSchicht ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
+                                {
+                                    isSort ? <span role="button" onClick={() => handelSort('schicht')} className={`d-flex align-items-center ${iconPosSchicht ? 'icon_position' : ''}`} >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                                        </svg>
+                                    </span> : null
+                                }
                             </div>
                         </th>
                         <th>
                             <div className='d-flex align-items-center justify-content-between' >
                                 <span>Status</span>
-                                <span role="button" onClick={() => handelSort('status')} className={`d-flex align-items-center ${iconPosStatus ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
+                                {
+                                    isSort ? <span role="button" onClick={() => handelSort('status')} className={`d-flex align-items-center ${iconPosStatus ? 'icon_position' : ''}`} >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                                        </svg>
+                                    </span> : null
+                                }
                             </div>
                         </th>
                         <th>
                             <div className='d-flex align-items-center justify-content-between' >
                                 <span>MA</span>
-                                <span role="button" onClick={() => handelSort('ma')} className={`d-flex align-items-center ${iconPosMa ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
+                                {
+                                    isSort ? <span role="button" onClick={() => handelSort('ma')} className={`d-flex align-items-center ${iconPosMa ? 'icon_position' : ''}`} >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                                        </svg>
+                                    </span> : null
+                                }
                             </div>
                         </th>
                         <th>
                             <div className='d-flex align-items-center justify-content-between' >
                                 <span>Maschine</span>
-                                <span role="button" onClick={() => handelSort('mashine')} className={`d-flex align-items-center ${iconPosMashine ? 'icon_position' : ''}`} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
-                                    </svg>
-                                </span>
+                                {
+                                    isSort ? <span role="button" onClick={() => handelSort('mashine')} className={`d-flex align-items-center ${iconPosMashine ? 'icon_position' : ''}`} >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-triangle-fill" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                                        </svg>
+                                    </span> : null
+                                }
                             </div>
                         </th>
                         <th className='width-not' >Notiz</th>
@@ -180,7 +184,7 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
                                                 </span>
                                             )
                                         })}</td>
-                                        <td className='width-not' >{item?.notes[item?.notes.length - 1]}</td>
+                                        <td className='width-not' >{item?.notes[item?.notes?.length - 1].note}</td>
                                         <td>
                                             <span onClick={() => handleShow(item?.id, item.notes)} className={`cursor_pointer text-${darkMode ? 'white' : 'dark'}`} >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-chat-text" viewBox="0 0 16 16">
@@ -215,19 +219,14 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
                         <ul className='ul_style' >
                             {comments.map((item, i) => {
                                 return (
-                                    <li key={item + i} className={i % 2 === 0 ? noteClass : ''} >
-                                        <Badge className='ms-2 me-2 py-2 px-2' bg="secondary">{moment("2023-03-24T11:15:47").format('DD.MM.YYYY, HH:mm')}</Badge>
-                                        {item}
+                                    <li key={item.created_at + i} className={i % 2 === 0 ? noteClass : ''} >
+                                        <Badge className='ms-2 me-2 py-2 px-2' bg="secondary">{moment(item.created_at).format('DD.MM.YYYY, HH:mm')}</Badge>
+                                        {item.note}
                                     </li>
                                 )
                             })}
                         </ul>
                         <Form.Control onChange={(e) => setNoteComment(e.target.value)} value={noteComment} as="textarea" rows={2} />
-                        <div className='d-flex justify-content-end mt-2' >
-                            <Button variant="primary" onClick={handleAdd}>
-                                Hinzufügen
-                            </Button>
-                        </div>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer className='d-flex justify-content-center'>

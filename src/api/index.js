@@ -11,6 +11,12 @@ export const create = async (data) => {
 export const fetchGet = async (page = 1) => {
     return await axios.get(url + `api/items/?page=${page}`)
 }
+export const fetchGetMa = async () => {
+    return await axios.get(url + `api/items/ma`)
+}
 export const updated = async (id, notes) => {
     return await axios.patch(url + `api/items/${id}`, notes)
+}
+export const fetchSearch = async (fromDate, toDate, status, ma, machine) => {
+    return await axios.get(url + `api/items/?${fromDate ? 'from_date=' + fromDate : '&'}&${toDate ? 'to_date=' + toDate : '&'}&${status ? 'status=' + status : '&'}&${ma ? 'ma=' + ma : '&'}&${machine ? 'machine=' + machine : '&'}`)
 }

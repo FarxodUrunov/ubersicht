@@ -60,13 +60,24 @@ function BaseTabs({ darkMode }) {
                     <BaseFormCreate darkMode={darkMode} page={page} setTableData={setTableData} />
                 </Tab>
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'ubersicht' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="ubersicht" title="Übersicht">
-                    <BaseTable darkMode={darkMode} data={tableData} page={page} setTableData={setTableData} setDatLength={setDatLength} />
+                    <BaseTable
+                        darkMode={darkMode}
+                        data={tableData}
+                        page={page}
+                        setTableData={setTableData}
+                        setDatLength={setDatLength}
+                        isSort={true}
+                    />
                     <div className='d-flex justify-content-center paginationTable'>
                         <BasePagination darkMode={darkMode} totalPage={totalPage} page={page} limit={limit} siblings={1} onPageChange={handlePageChange} />
                     </div>
                 </Tab>
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'suche' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="suche" title="Suche">
-                    <BaseSearchPage darkMode={darkMode} />
+                    <BaseSearchPage
+                        darkMode={darkMode}
+                        setTableData={setTableData}
+                        setDatLength={setDatLength}
+                    />
                 </Tab>
             </Tabs>
             <span className={`d-none d-md-block position-absolute top-0 end-0 translate-middle-x d-flex align-items-center mt-2 text-${darkMode ? 'white' : 'dark'}`} >{onlineDate}</span>

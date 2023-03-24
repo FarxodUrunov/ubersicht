@@ -6,7 +6,6 @@ import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
 import { machine, statusData } from '../../data/users';
 import { create, fetchGet } from '../../api/index'
 import { timeFormat } from '../../utils/index'
-
 import { useForm } from 'react-hook-form';
 
 import './BaseCreateTable.css'
