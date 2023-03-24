@@ -15,7 +15,7 @@ function BaseTabs({ darkMode }) {
     const onlineDate = moment().format('DD.MM.YYYY // HH:mm')
 
     const [tableData, setTableData] = useState([])
-    const [key, setKey] = useState('neu');
+    const [key, setKey] = useState('ubersicht');
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(10)
     const [datLength, setDatLength] = useState([])
