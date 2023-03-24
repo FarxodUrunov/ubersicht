@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import moment from 'moment';
-import Form from 'react-bootstrap/Form';
-import Table from 'react-bootstrap/Table';
+import { Form, Alert, Table, Spinner, Modal } from 'react-bootstrap';
 import BaseFileUpload from '../BaseFileUpload/BaseFileUpload';
 import BaseMultiSelect from '../BaseMultiSelect/BaseMultiSelect';
 import { machine, statusData } from '../../data/users';
 import { create, fetchGet } from '../../api/index'
 import { timeFormat } from '../../utils/index'
+
+import { useForm } from 'react-hook-form';
 
 import './BaseCreateTable.css'
 
@@ -17,27 +18,34 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
     const currentDate = moment().format('DD.MM.YYYY, HH:mm')
     const time = moment().format('HH:mm')
 
+    const [isAdd, setIsAdd] = useState(false)
     const [employeeShortcut, setEmployeeShortcut] = useState('')
     const [maschine, setMaschine] = useState([])
     const [status, setStatus] = useState('')
-    const [note, setNote] = useState('')
+    const [note, setNote] = useState([])
     const [files, setFiles] = useState('')
     const [valueFile, setValueFile] = useState('')
+    const [show, setShow] = useState(false);
 
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
+        mode: 'onBlur',
+        shouldUseNativeValidation: true,
+    });
 
     const handelEmployee = (e) => {
         setEmployeeShortcut(e.target.value)
     }
     const handleNote = (e) => {
-        setNote(e.target.value)
+        setNote([e.target.value])
     }
 
     const handleUpload = (e) => {
         setFiles(e.target.files[0])
         setValueFile(e.target.value)
     }
+    const handleClose = () => setShow(false);
 
-    const handleSubmit = () => {
+    const handleSave = () => {
 
         const FormData = require('form-data');
         const formData = new FormData()
@@ -45,10 +53,11 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
         formData.append('file', files)
         formData.append('date', date)
         formData.append('ma', employeeShortcut)
-        formData.append('note', note)
+        formData.append('notes', note)
         formData.append('status', status.id)
         maschine.map(item => formData.append('machine', item.name))
 
+        setShow(true)
         create(formData).then(res => {
             if (res.status === 201) {
                 setEmployeeShortcut('')
@@ -58,6 +67,11 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                 setFiles('')
                 setValueFile('')
                 fetchGet(page).then((res) => setTableData(res.data.items))
+                setIsAdd(true)
+                setInterval(() => {
+                    setIsAdd(false)
+                }, 3000)
+                setShow(false)
             }
         })
     }
@@ -70,21 +84,23 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
         setNote('')
         setFiles('')
         setValueFile('')
+        reset()
     }
+
 
     return (
         <div className='d-flex justify-content-between' >
-            <Table className='my-4 ' striped bordered>
+            <Table className='my-2 ' striped bordered>
                 <tbody className={`${darkMode ? '' : 'table_form'}`}>
                     <tr>
-                        <td className='bg-secondary' ><h5 className={`my-3 ms-2 text-white`} >Eintrag hinzufügen</h5></td>
+                        <td className='bg-secondary' ><h5 className={`my-1 ms-2 text-white`} >Eintrag hinzufügen</h5></td>
                     </tr>
                     <tr>
                         <td>
                             <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Datum / Zeit</Form.Label>
                             <Form.Control
-                                size='lg'
-                                className='my-2 '
+                                size='sm'
+                                className='mb-1 '
                                 value={currentDate + `     Schicht // ${timeFormat(time)}`}
                                 type="text"
                                 placeholder="Automatically date"
@@ -95,27 +111,44 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                     <tr>
                         <td>
                             <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >MA Kürzel</Form.Label>
-                            <Form.Control onChange={handelEmployee} value={employeeShortcut} size='lg' className='my-2' type="text" placeholder="MA Kürzel:" />
+                            <Form.Control
+                                className='mb-1'
+                                {...register("employeeShortcut", { required: true, maxLength: 4 })}
+                                onChange={handelEmployee}
+                                value={employeeShortcut}
+                                size='sm'
+                                type="text"
+                                placeholder="MA Kürzel:"
+                            />
+                            {errors?.employeeShortcut && <span style={{ fontSize: '12px' }} className='text-danger ms-3' >Bitte geben Sie Ihr Mitarbeiterkürzel ein.</span>}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div className='my-2' >
+                            <div className='mb-1' >
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Maschine</Form.Label>
-                                <BaseMultiSelect options={machine} value={maschine} placeholder='Maschine:' select={(e) => setMaschine(e)} />
+                                <BaseMultiSelect
+                                    options={machine}
+                                    value={maschine}
+                                    placeholder='Maschine:'
+                                    select={(e) => setMaschine(e)}
+                                />
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div className='my-2' >
+                            <div className='mb-1' >
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Status</Form.Label>
-                                <Form className='ps-3 d-flex'>
+                                <Form
+                                    className='ps-3 d-flex'
+                                >
                                     {
                                         statusData.map(item => {
                                             return (
                                                 <div key={item.id} >
                                                     <Form.Check
+                                                        {...register("status", { required: true })}
                                                         className={`text-${darkMode ? 'white' : ''}`}
                                                         inline
                                                         label={item.name}
@@ -129,20 +162,28 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                                         })
                                     }
                                 </Form>
+                                {errors?.status && <span style={{ fontSize: '12px' }} className='d-block text-danger ms-3 mt-1' > Bitte wählen Sie Ihren Status aus.</span>}
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td >
-                            <div className='my-2' >
+                            <div className='mb-1' >
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Notiz</Form.Label>
-                                <Form.Control onChange={handleNote} value={note} as="textarea" rows={3} />
+                                <Form.Control
+                                    {...register("notes", { required: true })}
+                                    onChange={handleNote}
+                                    value={note}
+                                    as="textarea"
+                                    rows={2}
+                                />
+                                {errors?.notes && <span style={{ fontSize: '12px' }} className='d-block text-danger ms-3 mt-1' > Bitte geben Sie Ihre Notiz ein.</span>}
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div className='my-2'>
+                            <div className='my-0'>
                                 <Form.Label className={`fs-5 fw-bold ps-1 text-${darkMode ? 'white' : ''}`} >Bild anhängen</Form.Label>
                                 <BaseFileUpload value={valueFile} file={(e) => handleUpload(e)} />
                             </div>
@@ -152,13 +193,22 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                         <td>
                             <div className='d-flex justify-content-end'>
                                 <button onClick={handleClear} className={`px-2 py-1 me-2 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Abbruch</button>
-                                <button onClick={handleSubmit} className={`px-2 py-1 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Speichern</button>
+                                <button onClick={handleSubmit(handleSave)} className={`px-2 py-1 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Speichern</button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </Table>
-        </div>
+            {
+                isAdd ? <Alert className='position-fixed top-10 end-0' variant='success'>
+                    Erfolgreich hinzugefügt
+                </Alert> : null
+            }
+            <Modal className='d-flex justify-content-center align-items-center spinner_modal' show={show} onHide={handleClose}>
+                <Spinner animation="border" variant="light" />
+            </Modal>
+
+        </div >
     );
 }
 

@@ -11,3 +11,6 @@ export const create = async (data) => {
 export const fetchGet = async (page = 1) => {
     return await axios.get(url + `api/items/?page=${page}`)
 }
+export const updated = async (id, notes) => {
+    return await axios.patch(url + `api/items/${id}`, notes)
+}

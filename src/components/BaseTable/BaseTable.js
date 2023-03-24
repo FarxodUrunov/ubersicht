@@ -3,12 +3,12 @@ import { Modal, Button, Form, Table, Badge } from 'react-bootstrap';
 import { Fragment } from 'react';
 import moment from 'moment';
 import { timeFormat } from '../../utils/index'
-import { url } from '../../api/index'
+import { url, updated, fetchGet } from '../../api/index'
 
 import './BaseTable.css'
 
 
-const BaseTable = ({ data, darkMode }) => {
+const BaseTable = ({ data, darkMode, page, setDatLength, setTableData }) => {
     const [iconPosDatum, setIconPosDatum] = useState(true)
     const [iconPosUhrzeit, setIconPosUhrzeit] = useState(true)
     const [iconPosSchicht, setIconPosSchicht] = useState(true)
@@ -17,7 +17,11 @@ const BaseTable = ({ data, darkMode }) => {
     const [iconPosMashine, setIconPosMashine] = useState(true)
     const [show, setShow] = useState(false);
     const [noteComment, setNoteComment] = useState('')
-    const [noteCommentSave, setNoteCommentSave] = useState('')
+
+    const [itemId, setItemId] = useState('')
+    const [comments, setComments] = useState([])
+
+    const noteClass = 'text-success my-2'
 
     const statusColor = (status) => {
         if (status === 'info') {
@@ -39,16 +43,35 @@ const BaseTable = ({ data, darkMode }) => {
         if (str === 'mashine') setIconPosMashine(!iconPosMashine)
     }
 
+    const handleAdd = () => {
+        setComments([...comments, noteComment])
+        setNoteComment('')
+    }
+
     const handleClose = (str) => {
         setShow(false)
-        if (str === 'cancel') {
-            setNoteCommentSave('')
+        if (str === 'save') {
+            const FormData = require('form-data');
+            const noteData = new FormData()
+            comments.map(item => noteData.append('notes', item))
+            updated(itemId, noteData).then(res => {
+                if (res.status === 200) {
+                    fetchGet(page).then(res => {
+                        setTableData(res.data.items)
+                        setDatLength(res.data.length)
+                    })
+                }
+            })
         } else {
-            setNoteCommentSave(noteComment)
+            setNoteComment('')
         }
     };
 
-    const handleShow = () => setShow(true);
+    const handleShow = (id, com) => {
+        setShow(true)
+        setItemId(id)
+        setComments(com)
+    };
 
     const dateDay = (date) => {
         if (moment(date).format('dddd') === 'Monday') return 'Mo'
@@ -66,6 +89,9 @@ const BaseTable = ({ data, darkMode }) => {
         return moment(date).format('HH:mm')
     }
 
+    const onToUpperCase = (str) => {
+        return str.split('').map((item, i) => i === 0 ? item.toUpperCase() : item).join('')
+    }
     return (
         <>
             <Table variant={`${darkMode ? 'dark' : 'with'}`} className='my-3 border border-white' responsive="sm" striped bordered hover>
@@ -132,7 +158,7 @@ const BaseTable = ({ data, darkMode }) => {
                             </div>
                         </th>
                         <th className='width-not' >Notiz</th>
-                        <th>Comment</th>
+                        <th>Feedback</th>
                         <th>Bild</th>
                     </tr>
                 </thead>
@@ -142,10 +168,10 @@ const BaseTable = ({ data, darkMode }) => {
                             return item !== undefined ? (
                                 <Fragment key={item?.id + i}>
                                     <tr className={i % 2 === 0 ? 'bg_table_body' : ''} >
-                                        <td>{dateDay(item.date)},<br />{onDate(item.date)}</td>
+                                        <td style={{ width: '140px' }}>{dateDay(item.date)}, {onDate(item.date)}</td>
                                         <td>{onHour(item.date)}</td>
                                         <td>{timeFormat(onHour(item.date))}</td>
-                                        <td className={`bg-${statusColor(item?.status)}`} >{item.status}</td>
+                                        <td className={`bg-${statusColor(item?.status)}`} >{onToUpperCase(item.status)}</td>
                                         <td>{item.ma}</td>
                                         <td>{item.machine.map((mach, i) => {
                                             return (
@@ -154,19 +180,21 @@ const BaseTable = ({ data, darkMode }) => {
                                                 </span>
                                             )
                                         })}</td>
-                                        <td className='width-not' >{item?.note + noteCommentSave}</td>
+                                        <td className='width-not' >{item?.notes[item?.notes.length - 1]}</td>
                                         <td>
-                                            <span onClick={handleShow} className={`cursor_pointer text-${i % 2 === 0 ? 'white' : darkMode ? 'white' : 'dark'}`} >
-                                                <svg width="30" height="30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z" />
+                                            <span onClick={() => handleShow(item?.id, item.notes)} className={`cursor_pointer text-${darkMode ? 'white' : 'dark'}`} >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-chat-text" viewBox="0 0 16 16">
+                                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
+                                                    <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8zm0 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
                                                 </svg>
                                             </span>
                                         </td>
                                         <td className='' >
                                             <div className='d-flex justify-content-center align-items-center' >
-                                                {item?.image ? <a className={darkMode ? 'text-white' : ''} href={url + item.image} target="_blank" rel="noreferrer" >
-                                                    <svg width="30" height="30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                        <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                                                {item?.image ? <a className={darkMode ? 'text-white' : 'text-dark'} href={url + item.image} target="_blank" rel="noreferrer" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-image" viewBox="0 0 16 16">
+                                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
                                                     </svg>
                                                 </a> : '-'}
                                             </div>
@@ -178,22 +206,31 @@ const BaseTable = ({ data, darkMode }) => {
                     }
                 </tbody>
             </Table>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} scrollable size='lg' >
                 <Modal.Header closeButton>
                     <Modal.Title>Notiz</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <ul className='ul_style' >
-                            <li><span className={`avatar_name bg-${'warning'}`} >J.A</span>Lorem Ipsum is simply dummy text of the printing and typesetting</li>
-                            <li className='text-success my-2'><span className={`avatar_name text-white bg-${'secondary'}`} >J.A</span>It is a long established fact that a reader will be distracted</li>
-                            <li><span className={`avatar_name bg-${'warning'}`} >J.A</span>There are many variations of passages of Lorem Ipsum availabl text of the printing and typesetting</li>
-                            <li className='text-success my-2' ><span className={`avatar_name text-white bg-${'secondary'}`} >J.A</span>Contrary to popular belief, Lorem Ipsum is not simply random text. It has </li>
+                            {comments.map((item, i) => {
+                                return (
+                                    <li key={item + i} className={i % 2 === 0 ? noteClass : ''} >
+                                        <Badge className='ms-2 me-2 py-2 px-2' bg="secondary">{moment("2023-03-24T11:15:47").format('DD.MM.YYYY, HH:mm')}</Badge>
+                                        {item}
+                                    </li>
+                                )
+                            })}
                         </ul>
-                        <Form.Control onChange={(e) => setNoteComment(e.target.value)} value={noteComment} as="textarea" rows={3} />
+                        <Form.Control onChange={(e) => setNoteComment(e.target.value)} value={noteComment} as="textarea" rows={2} />
+                        <div className='d-flex justify-content-end mt-2' >
+                            <Button variant="primary" onClick={handleAdd}>
+                                Hinzufügen
+                            </Button>
+                        </div>
                     </Form.Group>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className='d-flex justify-content-center'>
                     <Button variant="secondary" onClick={() => handleClose('cancel')}>
                         Abbruch
                     </Button>

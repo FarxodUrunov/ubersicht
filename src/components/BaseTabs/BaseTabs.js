@@ -60,7 +60,7 @@ function BaseTabs({ darkMode }) {
                     <BaseFormCreate darkMode={darkMode} page={page} setTableData={setTableData} />
                 </Tab>
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'ubersicht' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="ubersicht" title="Übersicht">
-                    <BaseTable darkMode={darkMode} data={tableData} />
+                    <BaseTable darkMode={darkMode} data={tableData} page={page} setTableData={setTableData} setDatLength={setDatLength} />
                     <div className='d-flex justify-content-center paginationTable'>
                         <BasePagination darkMode={darkMode} totalPage={totalPage} page={page} limit={limit} siblings={1} onPageChange={handlePageChange} />
                     </div>
