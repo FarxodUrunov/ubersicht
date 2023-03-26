@@ -50,6 +50,12 @@ function BaseSearchPage({ darkMode, setTableData, setDatLength }) {
     }
 
     useEffect(() => {
+        if (!(fromDate || toDate || statusSelect || maSelect || machineSelect)) {
+            setSearchData([])
+        }
+    }, [fromDate, toDate, statusSelect, maSelect, machineSelect])
+
+    useEffect(() => {
         fetchGetMa().then(res => {
             setMaFilter(res.data.ma)
         })
