@@ -42,7 +42,15 @@ function BaseTabs({ darkMode }) {
 
     useEffect(() => {
         fetchGet(page).then(res => {
-            setTableData(res?.data?.items)
+            setTableData(res?.data?.items.sort((a, b) => {
+                if (a.date > b.date) {
+                    return -1;
+                }
+                if (a.date < b.date) {
+                    return 1;
+                }
+                return 0;
+            }))
             setDatLength(res?.data?.length)
         })
     }, [page])
@@ -57,7 +65,7 @@ function BaseTabs({ darkMode }) {
                 className={`bg_tab_header ${darkMode ? 'bg-dark border border-white' : ''}`}
             >
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'neu' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="neu" title="+ NEU">
-                    <BaseFormCreate darkMode={darkMode} page={page} setTableData={setTableData} />
+                    <BaseFormCreate darkMode={darkMode} page={page} setTableData={setTableData} setKey={setKey} />
                 </Tab>
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'ubersicht' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="ubersicht" title="Übersicht">
                     <BaseTable

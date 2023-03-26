@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import BaseTabs from './components/BaseTabs/BaseTabs';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import BaseTabs from './components/BaseTabs/BaseTabs';
 import logo from './logo.svg'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';

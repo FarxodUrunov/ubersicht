@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import './BaseCreateTable.css'
 
 
-const BaseFormCreate = ({ darkMode, page, setTableData }) => {
+const BaseFormCreate = ({ darkMode, page, setTableData, setKey }) => {
 
     const date = moment().format()
     const currentDate = moment().format('DD.MM.YYYY, HH:mm')
@@ -71,6 +71,7 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                     setIsAdd(false)
                 }, 3000)
                 setShow(false)
+                setKey('ubersicht')
             }
         })
     }
@@ -148,7 +149,7 @@ const BaseFormCreate = ({ darkMode, page, setTableData }) => {
                                                 <div key={item.id} >
                                                     <Form.Check
                                                         {...register("status", { required: true })}
-                                                        className={`text-${darkMode ? 'white' : ''}`}
+                                                        className={`fs-5 text-${darkMode ? 'white' : ''}`}
                                                         inline
                                                         label={item.name}
                                                         name="group1"

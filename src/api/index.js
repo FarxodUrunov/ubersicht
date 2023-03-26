@@ -20,3 +20,6 @@ export const updated = async (id, notes) => {
 export const fetchSearch = async (fromDate, toDate, status, ma, machine) => {
     return await axios.get(url + `api/items/?${fromDate ? 'from_date=' + fromDate : '&'}&${toDate ? 'to_date=' + toDate : '&'}&${status ? 'status=' + status : '&'}&${ma ? 'ma=' + ma : '&'}&${machine ? 'machine=' + machine : '&'}`)
 }
+export const fetchSort = async (page = 1, sortBy, sortOrder) => {
+    return await axios.get(url + `api/items/?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}`)
+}

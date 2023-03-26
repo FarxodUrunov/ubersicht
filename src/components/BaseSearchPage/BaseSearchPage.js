@@ -61,14 +61,14 @@ function BaseSearchPage({ darkMode, setTableData, setDatLength }) {
                 <tbody className={`${darkMode ? 'search_page-dark' : 'search_page'}`} >
                     <tr>
                         <td>
-                            <div className='d-flex align-items-center' >
-                                <p className={`my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum von:</p>
+                            <div className='d-flex align-items-center date_picker' >
+                                <p className={`fs-5 my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum von:</p>
                                 <Form.Control onChange={(e) => handleFromDate(e)} size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
                         <td>
-                            <div className='d-flex align-items-center' >
-                                <p className={`my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum bis:</p>
+                            <div className='d-flex align-items-center date_picker' >
+                                <p className={`fs-5 my-0 px-2 py-1 search_page-text fw-bold bg-transparent text-${darkMode ? 'white' : ''}`} >Datum bis:</p>
                                 <Form.Control onChange={(e) => handleToDate(e)} size='sm' className='ms-2 w-50' type="date" />
                             </div>
                         </td>
@@ -82,19 +82,19 @@ function BaseSearchPage({ darkMode, setTableData, setDatLength }) {
                         </td> */}
                         <td className='search_page-text' >
                             <div className='d-flex align-items-center' >
-                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Status:</p>
+                                <p className={`fs-5 my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Status:</p>
                                 <BaseSelect select={(e) => handleSelectStatus(e)} size='sm' options={statusFilter} />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >MA:</p>
+                                <p className={`fs-5 my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >MA:</p>
                                 <BaseSelect select={(e) => handleSelectMa(e)} size='sm' options={maFilter} />
                             </div>
                         </td>
                         <td className='search_page-text'>
                             <div className='d-flex align-items-center' >
-                                <p className={`my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Maschine:</p>
+                                <p className={`fs-5 my-0 me-2 px-2 py-1 fw-bold text-${darkMode ? 'white' : ''}`} >Maschine:</p>
                                 <BaseSelect select={(e) => handleSelectMachine(e)} size='sm' options={machineFilter} />
                             </div>
                         </td>
@@ -105,7 +105,7 @@ function BaseSearchPage({ darkMode, setTableData, setDatLength }) {
                 searchData.length > 0 ? <BaseTable darkMode={darkMode} setDatLength={setDatLength} setTableData={setTableData} data={searchData} setSearchData={setSearchData} searchFetch={[fromDate, toDate, statusSelect, maSelect, machineSelect]} /> : null
             }
             <div className='d-flex justify-content-end' >
-                <button onClick={handleSubmit} className={darkMode ? 'search_btn-dark' : 'search_btn'} >Suchen..</button>
+                <button onClick={handleSubmit} className={darkMode ? 'search_btn-dark' : 'search_btn'} disabled={!(fromDate || toDate || statusSelect || maSelect || machineSelect)} >Suchen..</button>
             </div>
         </div>
     );

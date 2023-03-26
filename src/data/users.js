@@ -1,17 +1,4 @@
 
-export const getUsers = (arr, page, limit) => {
-    let array = []
-    for (let i = (page - 1) * limit; i < (page * limit); i++) {
-        array.push(arr[i])
-    }
-    console.log(arr, page, limit)
-    return array
-}
-
-export const getLength = (arr) => {
-    return arr?.length
-}
-
 export const machine = [
     { name: 'E 35 - 1', id: 1 },
     { name: 'E 45 - 2', id: 2 },
