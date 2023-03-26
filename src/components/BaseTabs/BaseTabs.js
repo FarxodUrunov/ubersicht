@@ -50,7 +50,7 @@ function BaseTabs({ darkMode }) {
 
     useEffect(() => {
         setTotalPage(Math.ceil(datLength / limit))
-    }, [datLength])
+    }, [datLength, limit])
 
     return (
 
