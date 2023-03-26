@@ -20,7 +20,7 @@ function BaseTabs({ darkMode }) {
     const [limit, setLimit] = useState(10)
     const [datLength, setDatLength] = useState([])
 
-    let totalPage = Math.ceil(datLength / limit)
+    const [totalPage, setTotalPage] = useState(Math.ceil(datLength / limit))
 
     const handlePageChange = (value) => {
         if (value === "... ") {
@@ -40,20 +40,17 @@ function BaseTabs({ darkMode }) {
         setLimit(10)
     }
 
+
     useEffect(() => {
         fetchGet(page).then(res => {
-            setTableData(res?.data?.items.sort((a, b) => {
-                if (a.date > b.date) {
-                    return -1;
-                }
-                if (a.date < b.date) {
-                    return 1;
-                }
-                return 0;
-            }))
+            setTableData(res?.data?.items)
             setDatLength(res?.data?.length)
         })
     }, [page])
+
+    useEffect(() => {
+        setTotalPage(Math.ceil(datLength / limit))
+    }, [datLength])
 
     return (
 
@@ -77,7 +74,15 @@ function BaseTabs({ darkMode }) {
                         isSort={true}
                     />
                     <div className='d-flex justify-content-center paginationTable'>
-                        <BasePagination darkMode={darkMode} totalPage={totalPage} page={page} limit={limit} siblings={1} onPageChange={handlePageChange} />
+                        <BasePagination
+                            darkMode={darkMode}
+                            totalPage={totalPage}
+                            page={page}
+                            limit={limit}
+                            siblings={1}
+                            datLength={datLength}
+                            onPageChange={handlePageChange}
+                        />
                     </div>
                 </Tab>
                 <Tab tabClassName={`fs-5 fw-bold border-0 rounded-0 text-${key === 'suche' ? 'dark' : darkMode ? 'white' : 'dark'}`} eventKey="suche" title="Suche">

@@ -90,15 +90,28 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData, isSort, s
         }
         if (str === 'schicht') {
             setIconPosSchicht(!iconPosSchicht)
-            data.sort((a, b) => {
-                if (timeFormat(onHour(a.date)) > timeFormat(onHour(b.date))) {
-                    return 1;
-                }
-                if (timeFormat(onHour(a.date)) < timeFormat(onHour(b.date))) {
-                    return -1;
-                }
-                return 0;
-            })
+            if (iconPosSchicht) {
+                data.sort((a, b) => {
+                    if (timeFormat(onHour(a.date)) > timeFormat(onHour(b.date))) {
+                        return 1;
+                    }
+                    if (timeFormat(onHour(a.date)) < timeFormat(onHour(b.date))) {
+                        return -1;
+                    }
+                    return 0;
+                })
+
+            } else {
+                data.sort((a, b) => {
+                    if (timeFormat(onHour(a.date)) > timeFormat(onHour(b.date))) {
+                        return -1;
+                    }
+                    if (timeFormat(onHour(a.date)) < timeFormat(onHour(b.date))) {
+                        return 1;
+                    }
+                    return 0;
+                })
+            }
         }
         if (str === 'status') {
             setIconPosStatus(!iconPosStatus)
