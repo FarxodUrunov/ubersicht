@@ -248,7 +248,7 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData, isSort, s
                     }
                 </tbody>
             </Table>
-            <Modal show={show} onHide={handleClose} scrollable size='lg' >
+            <Modal show={show} onHide={handleClose} scrollable={true} size='lg' >
                 <Modal.Header closeButton>
                     <Modal.Title>Notiz</Modal.Title>
                 </Modal.Header>
@@ -264,9 +264,13 @@ const BaseTable = ({ data, darkMode, page, setDatLength, setTableData, isSort, s
                                 )
                             })}
                         </ul>
-                        <Form.Control onChange={(e) => setNoteComment(e.target.value)} value={noteComment} as="textarea" rows={2} />
                     </Form.Group>
                 </Modal.Body>
+                <Modal.Title id="example-custom-modal-styling-title">
+                    <div className='px-4 py-2' >
+                        <Form.Control placeholder='Feedback' onChange={(e) => setNoteComment(e.target.value)} value={noteComment} as="textarea" rows={2} />
+                    </div>
+                </Modal.Title>
                 <Modal.Footer className='d-flex justify-content-center'>
                     <Button variant="secondary" onClick={() => handleClose('cancel')}>
                         Abbruch
