@@ -192,8 +192,8 @@ const BaseFormCreate = ({ darkMode, page, setTableData, setKey }) => {
                     <tr>
                         <td>
                             <div className='d-flex justify-content-end'>
-                                <button onClick={handleClear} className={`px-2 py-1 me-2 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Abbruch</button>
-                                <button onClick={handleSubmit(handleSave)} className={`px-2 py-1 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Speichern</button>
+                                <button onClick={handleClear} className={`fw-bold px-2 py-1 me-2 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Abbruch</button>
+                                <button onClick={handleSubmit(handleSave)} className={`fw-bold px-2 py-1 ${darkMode ? 'btn_b-dark' : 'btn_b'}`} >Speichern</button>
                             </div>
                         </td>
                     </tr>

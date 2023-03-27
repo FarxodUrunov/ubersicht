@@ -111,7 +111,7 @@ function BaseSearchPage({ darkMode, setTableData, setDatLength }) {
                 searchData.length > 0 ? <BaseTable darkMode={darkMode} setDatLength={setDatLength} setTableData={setTableData} data={searchData} setSearchData={setSearchData} searchFetch={[fromDate, toDate, statusSelect, maSelect, machineSelect]} /> : null
             }
             <div className='d-flex justify-content-end' >
-                <button onClick={handleSubmit} className={darkMode ? 'search_btn-dark' : 'search_btn'} disabled={!(fromDate || toDate || statusSelect || maSelect || machineSelect)} >Suchen..</button>
+                <button onClick={handleSubmit} className={`fw-bold ${darkMode ? 'search_btn-dark' : 'search_btn'}`} disabled={!(fromDate || toDate || statusSelect || maSelect || machineSelect)} >Suchen..</button>
             </div>
         </div>
     );

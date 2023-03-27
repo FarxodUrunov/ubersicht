@@ -43,3 +43,7 @@
   right: 25px;
   z-index: 10;
 }
+.invert {
+  background-color: white;
+  filter: invert(1);
+}
